@@ -7,11 +7,11 @@ RUN apt-get update \
     && ln -s /usr/bin/fromdos /usr/bin/dos2unix
 
 # update erlang
-RUN apt-get install wget \
+RUN apt-get install -y wget \
     && echo 'deb http://packages.erlang-solutions.com/debian stretch contrib' | tee /etc/apt/sources.list.d/erlang.list \
     && wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc \
     && apt-key add erlang_solutions.asc \
-    && agt-get update; \
+    && apt-get update; \
     && 	apt-get install -y --no-install-recommends \
 		erlang-asn1 \
 		erlang-crypto \
