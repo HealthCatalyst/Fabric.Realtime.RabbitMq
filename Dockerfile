@@ -39,3 +39,8 @@ RUN dos2unix /opt/healthcatalyst/scripts/setupca.sh \
 	&& dos2unix /opt/healthcatalyst/scripts/generatecerts.sh \
 	&& chmod +x /opt/healthcatalyst/scripts/generatecerts.sh
 
+CMD /bin/bash /opt/healthcatalyst/scripts/setupca.sh \
+	&& /bin/bash /opt/healthcatalyst/scripts/generateservercert.sh Imran \
+	&& /etc/init.d/rabbitmq-server restart \
+	&& /bin/bash /opt/healthcatalyst/scripts/generateclientcert.sh Imran \
+	&& /etc/init.d/rabbitmq-server restart
