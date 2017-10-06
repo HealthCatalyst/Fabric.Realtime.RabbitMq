@@ -3,8 +3,12 @@
 set -eu
 
 
-CMD /bin/bash /home/setupca.sh \
+/bin/bash /home/setupca.sh \
 	&& /bin/bash /home/generateservercert.sh Imran \
-	&& /etc/init.d/rabbitmq-server restart \
-	&& /bin/bash /home/generateclientcert.sh Imran \
-	&& rabbitmq-server
+	&& /etc/init.d/rabbitmq-server restart
+    
+sleep 10s;
+
+/bin/bash /home/generateclientcert.sh Imran 
+
+exec rabbitmq-server
