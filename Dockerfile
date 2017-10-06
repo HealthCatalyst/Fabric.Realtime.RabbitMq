@@ -58,12 +58,13 @@ COPY openssl.cnf /home/testca
 # RUN /bin/bash /home/prepare-server.sh \
 # 	&& /etc/init.d/rabbitmq-server restart
 
+RUN /bin/bash /home/setupca.sh \
+	&& /bin/bash /home/generateservercert.sh Imran \
+	&& /etc/init.d/rabbitmq-server restart
+
 # CMD /bin/bash /home/prepare-server.sh && /etc/init.d/rabbitmq-server restart && /bin/bash /home/generate-client-keys.sh && rabbitmq-server
 
-CMD /bin/bash /home/setupca.sh \
-	&& /bin/bash /home/generateservercert.sh Imran \
-	&& /etc/init.d/rabbitmq-server restart \
-	&& /bin/bash /home/generateclientcert.sh Imran \
+CMD /bin/bash /home/generateclientcert.sh Imran \
 	&& rabbitmq-server
 
 #sleep infinity
