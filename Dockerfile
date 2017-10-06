@@ -33,34 +33,37 @@ RUN apt-get update \
 
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
-COPY scripts /opt/healthcatalyst/scripts 
-
-# RUN dos2unix /opt/healthcatalyst/scripts/setupca.sh \
-#     && chmod +x /opt/healthcatalyst/scripts/setupca.sh \
-#     && dos2unix /opt/healthcatalyst/scripts/generateservercert.sh \
-#     && chmod +x /opt/healthcatalyst/scripts/generateservercert.sh \
-# 	&& dos2unix /opt/healthcatalyst/scripts/generateclientcert.sh \
-# 	&& chmod +x /opt/healthcatalyst/scripts/generateclientcert.sh \
-# 	&& dos2unix /opt/healthcatalyst/scripts/generatecerts.sh \
-# 	&& chmod +x /opt/healthcatalyst/scripts/generatecerts.sh
-
-# CMD /bin/bash /opt/healthcatalyst/scripts/setupca.sh \
-# 	&& /bin/bash /opt/healthcatalyst/scripts/generateservercert.sh Imran \
-# 	&& /etc/init.d/rabbitmq-server restart \
-# 	&& /bin/bash /opt/healthcatalyst/scripts/generateclientcert.sh Imran \
-# 	&& /etc/init.d/rabbitmq-server restart
-
-COPY openssl.cnf /home/testca
-COPY prepare-server.sh generate-client-keys.sh /home/
+COPY scripts /home/ 
 
 RUN mkdir -p /home/server \
 	&& mkdir -p /home/client \
-	&& dos2unix /home/prepare-server.sh \
-	&& dos2unix /home/generate-client-keys.sh \
-	&& chmod +x /home/prepare-server.sh /home/generate-client-keys.sh
+	&&  dos2unix /home/setupca.sh \
+    && chmod +x /home/setupca.sh \
+    && dos2unix /home/generateservercert.sh \
+    && chmod +x /home/scripts/generateservercert.sh \
+	&& dos2unix /home/generateclientcert.sh \
+	&& chmod +x /home/generateclientcert.sh \
+	&& dos2unix /home/generatecerts.sh \
+	&& chmod +x /home/generatecerts.sh
 
-RUN /bin/bash /home/prepare-server.sh \
-	&& /etc/init.d/rabbitmq-server restart
+COPY openssl.cnf /home/testca
+# COPY prepare-server.sh generate-client-keys.sh /home/
 
-CMD /bin/bash /home/generate-client-keys.sh && rabbitmq-server
+# RUN mkdir -p /home/server \
+# 	&& mkdir -p /home/client \
+# 	&& dos2unix /home/prepare-server.sh \
+# 	&& dos2unix /home/generate-client-keys.sh \
+# 	&& chmod +x /home/prepare-server.sh /home/generate-client-keys.sh
+
+# RUN /bin/bash /home/prepare-server.sh \
+# 	&& /etc/init.d/rabbitmq-server restart
+
+# CMD /bin/bash /home/prepare-server.sh && /etc/init.d/rabbitmq-server restart && /bin/bash /home/generate-client-keys.sh && rabbitmq-server
+
+CMD /bin/bash /home/setupca.sh \
+	&& /bin/bash /home/generateservercert.sh Imran \
+	&& /etc/init.d/rabbitmq-server restart \
+	&& /bin/bash /home/generateclientcert.sh Imran \
+	&& rabbitmq-server
+
 #sleep infinity
