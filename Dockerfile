@@ -51,29 +51,5 @@ RUN mkdir -p /home/server \
 	&& chmod +x ./docker-entrypoint.sh
 
 COPY openssl.cnf /home/testca
-# COPY prepare-server.sh generate-client-keys.sh /home/
-
-# RUN mkdir -p /home/server \
-# 	&& mkdir -p /home/client \
-# 	&& dos2unix /home/prepare-server.sh \
-# 	&& dos2unix /home/generate-client-keys.sh \
-# 	&& chmod +x /home/prepare-server.sh /home/generate-client-keys.sh
-
-# RUN /bin/bash /home/prepare-server.sh \
-# 	&& /etc/init.d/rabbitmq-server restart
-
-# RUN /bin/bash /home/setupca.sh \
-# 	&& /bin/bash /home/generateservercert.sh Imran \
-# 	&& /etc/init.d/rabbitmq-server restart
-
-# CMD /bin/bash /home/prepare-server.sh && /etc/init.d/rabbitmq-server restart && /bin/bash /home/generate-client-keys.sh && rabbitmq-server
-
-# CMD /bin/bash /home/generateclientcert.sh Imran \
-# 	&& rabbitmq-server
-
-#sleep infinity
-
-
-# CMD ./docker-entrypoint.sh 
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
