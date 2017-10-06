@@ -40,7 +40,7 @@ RUN mkdir -p /home/server \
 	&&  dos2unix /home/setupca.sh \
     && chmod +x /home/setupca.sh \
     && dos2unix /home/generateservercert.sh \
-    && chmod +x /home/scripts/generateservercert.sh \
+    && chmod +x /home/generateservercert.sh \
 	&& dos2unix /home/generateclientcert.sh \
 	&& chmod +x /home/generateclientcert.sh \
 	&& dos2unix /home/generatecerts.sh \
