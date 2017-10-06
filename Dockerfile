@@ -68,5 +68,6 @@ COPY openssl.cnf /home/testca
 # 	&& rabbitmq-server
 
 #sleep infinity
+ADD docker-entrypoint.sh ./docker-entrypoint.sh
 
-ENTRYPOINT [ "dockerentrypoint.sh" ]
+ENTRYPOINT [ ./"docker-entrypoint.sh" ]
