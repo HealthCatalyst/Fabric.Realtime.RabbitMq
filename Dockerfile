@@ -35,6 +35,8 @@ COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
 COPY scripts /home/ 
 
+ADD docker-entrypoint.sh ./docker-entrypoint.sh
+
 RUN mkdir -p /home/server \
 	&& mkdir -p /home/client \
 	&&  dos2unix /home/setupca.sh \
@@ -44,7 +46,9 @@ RUN mkdir -p /home/server \
 	&& dos2unix /home/generateclientcert.sh \
 	&& chmod +x /home/generateclientcert.sh \
 	&& dos2unix /home/generatecerts.sh \
-	&& chmod +x /home/generatecerts.sh
+	&& chmod +x /home/generatecerts.sh \
+	&& dos2unix ./docker-entrypoint.sh \
+	&& chmod +x ./docker-entrypoint.sh
 
 COPY openssl.cnf /home/testca
 # COPY prepare-server.sh generate-client-keys.sh /home/
@@ -68,6 +72,8 @@ COPY openssl.cnf /home/testca
 # 	&& rabbitmq-server
 
 #sleep infinity
-ADD docker-entrypoint.sh ./docker-entrypoint.sh
 
-ENTRYPOINT [ ./"docker-entrypoint.sh" ]
+
+# CMD ./docker-entrypoint.sh 
+
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
