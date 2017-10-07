@@ -12,22 +12,22 @@ RUN apt-get update \
 	&& touch /opt/healthcatalyst/testca/index.txt
 
 # update erlang
-# RUN apt-get install -y wget \
-#     && echo 'deb http://packages.erlang-solutions.com/debian stretch contrib' | tee /etc/apt/sources.list.d/erlang.list \
-#     && wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc \
-#     && apt-key add erlang_solutions.asc \
-#     && apt-get update \
-#     && apt-get install -y --no-install-recommends \
-# 		erlang-asn1 \
-# 		erlang-crypto \
-# 		erlang-eldap \
-# 		erlang-inets \
-# 		erlang-mnesia \
-# 		erlang-nox \
-# 		erlang-os-mon \
-# 		erlang-public-key \
-# 		erlang-ssl \
-# 		erlang-xmerl
+RUN apt-get install -y wget \
+    && echo 'deb http://packages.erlang-solutions.com/debian stretch contrib' | tee /etc/apt/sources.list.d/erlang.list \
+    && wget https://packages.erlang-solutions.com/debian/erlang_solutions.asc \
+    && apt-key add erlang_solutions.asc \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+		erlang-asn1 \
+		erlang-crypto \
+		erlang-eldap \
+		erlang-inets \
+		erlang-mnesia \
+		erlang-nox \
+		erlang-os-mon \
+		erlang-public-key \
+		erlang-ssl \
+		erlang-xmerl
 
 # COPY openssl.cnf /opt/healthcatalyst/testca
 
