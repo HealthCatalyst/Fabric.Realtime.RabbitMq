@@ -5,7 +5,7 @@ set -eu
 #
 # Prepare the certificate authority (self-signed).
 #
-cd /home/testca
+cd /opt/healthcatalyst/testca
 
 # Create a self-signed certificate that will serve a certificate authority (CA).
 # The private key is located under "private".
