@@ -11,7 +11,7 @@ cd /opt/healthcatalyst/client
 openssl genrsa -out key.pem 2048
 
 # Generate a certificate from our private key.
-openssl req -new -key key.pem -out req.pem -outform PEM -subj /CN=$(hostname)/O=client/ -nodes
+openssl req -new -key key.pem -out req.pem -outform PEM -subj /CN=fabricrabbitmquser/O=client/ -nodes
 
 # Sign the certificate with our CA.
 cd /opt/healthcatalyst/testca
