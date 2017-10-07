@@ -11,6 +11,8 @@ then
 		
 	/bin/bash /opt/healthcatalyst/generateclientcert.sh Imran \
 		&& /etc/init.d/rabbitmq-server stop
+else
+	echo "certificates already exist so we're not regenerating them"
 fi
 
 exec rabbitmq-server
