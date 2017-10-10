@@ -39,6 +39,8 @@ COPY scripts /opt/healthcatalyst/
 
 ADD docker-entrypoint.sh ./docker-entrypoint.sh
 
+COPY plugins/* /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.12/plugins/
+
 RUN mkdir -p /opt/healthcatalyst/server \
 	&& mkdir -p /opt/healthcatalyst/client \
 	&&  dos2unix /opt/healthcatalyst/setupca.sh \
@@ -53,5 +55,6 @@ RUN mkdir -p /opt/healthcatalyst/server \
 	&& chmod +x ./docker-entrypoint.sh
 
 COPY openssl.cnf /opt/healthcatalyst/testca
+
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]

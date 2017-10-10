@@ -24,6 +24,8 @@ fi
 echo "enabling ssl auth plugin" \
 	&& /etc/init.d/rabbitmq-server restart \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
+	&& echo "enabling rabbitmq_auth_backend_ip_range plugin" \
+	&& rabbitmq-plugins enable rabbitmq_auth_backend_ip_range \
 	&& echo "creating fabricrabbitmquser user" \
 	&& rabbitmqctl add_user fabricrabbitmquser test \
 	&& rabbitmqctl set_user_tags fabricrabbitmquser administrator \
