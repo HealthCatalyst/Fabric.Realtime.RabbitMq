@@ -28,6 +28,10 @@ echo "enabling ssl auth plugin" \
 	&& rabbitmqctl add_user fabricrabbitmquser test \
 	&& rabbitmqctl set_user_tags fabricrabbitmquser administrator \
 	&& rabbitmqctl set_permissions -p / fabricrabbitmquser ".*" ".*" ".*" \
+	&& echo "creating fabricinterfaceengine user" \
+	&& rabbitmqctl add_user fabricinterfaceengine mypassword \
+	&& rabbitmqctl set_user_tags fabricinterfaceengine ip-private \
+	&& rabbitmqctl set_permissions -p / fabricinterfaceengine ".*" ".*" ".*" \
 	&& /etc/init.d/rabbitmq-server stop
 
 exec rabbitmq-server

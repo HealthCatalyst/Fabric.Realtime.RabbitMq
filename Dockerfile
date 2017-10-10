@@ -1,4 +1,6 @@
 FROM rabbitmq:3-management
+LABEL maintainer="Health Catalyst"
+LABEL version="1.0"
 
 RUN apt-get update \
     && apt-get install openssl \
