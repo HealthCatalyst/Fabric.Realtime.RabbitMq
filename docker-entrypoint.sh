@@ -21,8 +21,8 @@ else
 	echo "certificates already exist so we're not regenerating them"
 fi
 
-echo "enabling ssl auth plugin" \
-	&& /etc/init.d/rabbitmq-server restart \
+/etc/init.d/rabbitmq-server restart \
+	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
 	&& echo "enabling rabbitmq_auth_backend_ip_range plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_backend_ip_range \
