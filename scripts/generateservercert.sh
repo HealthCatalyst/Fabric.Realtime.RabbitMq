@@ -2,6 +2,9 @@
 
 set -eu
 
+# https://stackoverflow.com/questions/39296472/shell-script-how-to-check-if-an-environment-variable-exists-and-get-its-value
+CertPassword="${CERT_PASSWORD:-roboconf}"
+
 #
 # Prepare the certificate authority (self-signed).
 #
@@ -24,4 +27,5 @@ openssl ca -config openssl.cnf -in /opt/healthcatalyst/server/req.pem -out /opt/
 
 # Create a key store that will contain our certificate.
 cd /opt/healthcatalyst/server
-openssl pkcs12 -export -out keycert.p12 -in cert.pem -inkey key.pem -passout pass:roboconf
+openssl pkcs12 -export -out keycert.p12 -in cert.pem -inkey key.pem -passout pass:$CertPassword
+
