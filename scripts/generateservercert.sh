@@ -4,6 +4,7 @@ set -eu
 
 # https://stackoverflow.com/questions/39296472/shell-script-how-to-check-if-an-environment-variable-exists-and-get-its-value
 CertPassword="${CERT_PASSWORD:-roboconf}"
+MyHostName="${CERT_HOSTNAME:-$(hostname)}"
 
 #
 # Prepare the certificate authority (self-signed).
@@ -19,7 +20,7 @@ cd /opt/healthcatalyst/server
 openssl genrsa -out key.pem 2048
 
 # Generate a certificate from our private key.
-openssl req -new -key key.pem -out req.pem -outform PEM -subj /CN=$(hostname)/O=server/ -nodes
+openssl req -new -key key.pem -out req.pem -outform PEM -subj /CN=$(MyHostName)/O=server/ -nodes
 
 # Sign the certificate with our CA.
 cd /opt/healthcatalyst/testca
