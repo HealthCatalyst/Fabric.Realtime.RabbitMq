@@ -28,11 +28,11 @@ fi
 	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
 	&& echo "creating fabricrabbitmquser user" \
-	&& rabbitmqctl add_user fabricrabbitmquser test \
+	&& rabbitmqctl add_user fabricrabbitmquser gryxA8wpqk8YU5hy \
 	&& rabbitmqctl set_user_tags fabricrabbitmquser administrator \
 	&& rabbitmqctl set_permissions -p / fabricrabbitmquser ".*" ".*" ".*" \
 	&& echo "creating fabricinterfaceengine user" \
-	&& rabbitmqctl add_user fabricinterfaceengine mypassword \
+	&& rabbitmqctl add_user fabricinterfaceengine 3rzgUS7Enpj9qcG4 \
 	&& rabbitmqctl set_user_tags fabricinterfaceengine ip-private \
 	&& rabbitmqctl set_permissions -p / fabricinterfaceengine ".*" ".*" ".*" \
 	&& /etc/init.d/rabbitmq-server stop
