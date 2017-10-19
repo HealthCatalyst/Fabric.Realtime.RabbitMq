@@ -43,6 +43,8 @@ fi
 	&& rabbitmqctl add_user admin $RabbitMqMgmtUiPassword \
 	&& rabbitmqctl set_user_tags admin administrator \
 	&& rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" \
+	&& echo "deleting guest user" \
+	&& rabbitmqctl delete_user guest \
 	&& /etc/init.d/rabbitmq-server stop
 
 exec rabbitmq-server
