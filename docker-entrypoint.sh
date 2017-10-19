@@ -21,11 +21,12 @@ else
 	echo "certificates already exist so we're not regenerating them"
 fi
 
+# passwords don't have to be secure since only servers in the docker swarm cluster can
+#  access with plain username/password (we don't open the non-SSL port, 5672, outside the swarm)
+# All access from outside the swarm happens on port 5671 with SSL where we pick the username from the client cert
 /etc/init.d/rabbitmq-server restart \
 	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
-	&& echo "enabling rabbitmq_auth_backend_ip_range plugin" \
-	&& rabbitmq-plugins enable rabbitmq_auth_backend_ip_range \
 	&& echo "creating fabricrabbitmquser user" \
 	&& rabbitmqctl add_user fabricrabbitmquser test \
 	&& rabbitmqctl set_user_tags fabricrabbitmquser administrator \
