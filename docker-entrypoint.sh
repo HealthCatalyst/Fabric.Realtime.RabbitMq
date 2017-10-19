@@ -9,6 +9,10 @@ echo "-------"
 ls /opt/healthcatalyst/client/
 echo "-------"
 
+RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
+
+echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
+
 if [ ! -f "/opt/healthcatalyst/client/cert.pem" ]
 then
 	echo "no certificates found so regenerating them"
@@ -35,6 +39,10 @@ fi
 	&& rabbitmqctl add_user fabricinterfaceengine 3rzgUS7Enpj9qcG4 \
 	&& rabbitmqctl set_user_tags fabricinterfaceengine ip-private \
 	&& rabbitmqctl set_permissions -p / fabricinterfaceengine ".*" ".*" ".*" \
+	&& echo "creating admin user" \
+	&& rabbitmqctl add_user admin $RabbitMqMgmtUiPassword \
+	&& rabbitmqctl set_user_tags admin administrator \
+	&& rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" \
 	&& /etc/init.d/rabbitmq-server stop
 
 exec rabbitmq-server
