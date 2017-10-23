@@ -6,24 +6,12 @@ echo "running docker-entrypoint.sh"
 
 echo "contents of /opt/healthcatalyst/client/"
 echo "-------"
-ls /opt/healthcatalyst/client/
+# ls /opt/healthcatalyst/client/
 echo "-------"
 
 RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
 
 echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
-
-if [ ! -f "/opt/healthcatalyst/client/cert.pem" ]
-then
-	echo "no certificates found so regenerating them"
-	/bin/bash /opt/healthcatalyst/setupca.sh \
-		&& /bin/bash /opt/healthcatalyst/generateservercert.sh \
-		&& /etc/init.d/rabbitmq-server restart \
-		&& /bin/bash /opt/healthcatalyst/generateclientcert.sh \
-		&& /etc/init.d/rabbitmq-server stop
-else
-	echo "certificates already exist so we're not regenerating them"
-fi
 
 # passwords don't have to be secure since only servers in the docker swarm cluster can
 #  access with plain username/password (we don't open the non-SSL port, 5672, outside the swarm)

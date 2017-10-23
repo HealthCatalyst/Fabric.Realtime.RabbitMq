@@ -4,14 +4,8 @@ LABEL version="1.0"
 
 RUN apt-get update \
     && apt-get install openssl \
-    && mkdir -p /opt/healthcatalyst/testca \
-    && apt-get install tofrodos \
-    && ln -s /usr/bin/fromdos /usr/bin/dos2unix \
-	&& mkdir -p /opt/healthcatalyst/testca/certs \
-	&& mkdir -p /opt/healthcatalyst/testca/private \
-	&& chmod 700 /opt/healthcatalyst/testca/private \
-	&& echo 01 > /opt/healthcatalyst/testca/serial \
-	&& touch /opt/healthcatalyst/testca/index.txt
+	&& apt-get install tofrodos \
+    && ln -s /usr/bin/fromdos /usr/bin/dos2unix	
 
 # update erlang
 RUN apt-get install -y wget \
@@ -35,26 +29,13 @@ RUN apt-get install -y wget \
 
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 
-COPY scripts /opt/healthcatalyst/ 
-
 ADD docker-entrypoint.sh ./docker-entrypoint.sh
+
+RUN dos2unix ./docker-entrypoint.sh \
+	&& chmod +x ./docker-entrypoint.sh 
 
 COPY plugins/* /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.12/plugins/
 
-RUN mkdir -p /opt/healthcatalyst/server \
-	&& mkdir -p /opt/healthcatalyst/client \
-	&&  dos2unix /opt/healthcatalyst/setupca.sh \
-    && chmod +x /opt/healthcatalyst/setupca.sh \
-    && dos2unix /opt/healthcatalyst/generateservercert.sh \
-    && chmod +x /opt/healthcatalyst/generateservercert.sh \
-	&& dos2unix /opt/healthcatalyst/generateclientcert.sh \
-	&& chmod +x /opt/healthcatalyst/generateclientcert.sh \
-	&& dos2unix /opt/healthcatalyst/generatecerts.sh \
-	&& chmod +x /opt/healthcatalyst/generatecerts.sh \
-	&& dos2unix ./docker-entrypoint.sh \
-	&& chmod +x ./docker-entrypoint.sh
-
 COPY openssl.cnf /opt/healthcatalyst/testca
-
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
