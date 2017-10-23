@@ -35,4 +35,12 @@ echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 	&& rabbitmqctl delete_user guest \
 	&& /etc/init.d/rabbitmq-server stop
 
+CertHostName="${CERT_HOSTNAME:-}"
+if [[ -z "$CertHostName" ]]
+then
+	# use insecure setting
+	echo "WARNING: No CERT_HOSTNAME specified so running in insecure mode"
+	cp /etc/rabbitmq/rabbitmq_nossl.config /etc/rabbitmq/rabbitmq.config
+fi
+
 exec rabbitmq-server

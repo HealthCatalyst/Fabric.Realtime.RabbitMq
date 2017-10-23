@@ -28,6 +28,7 @@ RUN apt-get install -y wget \
 # COPY openssl.cnf /opt/healthcatalyst/testca
 
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
+COPY rabbitmq_nossl.config /etc/rabbitmq/rabbitmq_nossl.config
 
 ADD docker-entrypoint.sh ./docker-entrypoint.sh
 
@@ -35,7 +36,5 @@ RUN dos2unix ./docker-entrypoint.sh \
 	&& chmod +x ./docker-entrypoint.sh 
 
 COPY plugins/* /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.12/plugins/
-
-COPY openssl.cnf /opt/healthcatalyst/testca
 
 ENTRYPOINT [ "./docker-entrypoint.sh" ]
