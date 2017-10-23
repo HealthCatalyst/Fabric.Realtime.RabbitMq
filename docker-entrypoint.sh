@@ -19,10 +19,10 @@ echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 /etc/init.d/rabbitmq-server restart \
 	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
-	&& echo "creating fabricrabbitmquser user" \
-	&& rabbitmqctl add_user fabricrabbitmquser gryxA8wpqk8YU5hy \
-	&& rabbitmqctl set_user_tags fabricrabbitmquser administrator \
-	&& rabbitmqctl set_permissions -p / fabricrabbitmquser ".*" ".*" ".*" \
+	&& echo "creating fabricuser user" \
+	&& rabbitmqctl add_user fabricuser gryxA8wpqk8YU5hy \
+	&& rabbitmqctl set_user_tags fabricuser administrator \
+	&& rabbitmqctl set_permissions -p / fabricuser ".*" ".*" ".*" \
 	&& echo "creating fabricinterfaceengine user" \
 	&& rabbitmqctl add_user fabricinterfaceengine 3rzgUS7Enpj9qcG4 \
 	&& rabbitmqctl set_user_tags fabricinterfaceengine ip-private \
