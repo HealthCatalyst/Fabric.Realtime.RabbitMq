@@ -14,7 +14,8 @@ else
 	echo "Setting up RabbitMq to use SSL"
 	echo "contents of /opt/healthcatalyst/client/"
 	echo "-------"
-	ls /opt/healthcatalyst/client/
+	ls /opt/healthcatalyst/testca/
+	ls /opt/healthcatalyst/server/
 	echo "-------"
 
 	if [ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]
