@@ -4,10 +4,36 @@ set -eu
 
 echo "running docker-entrypoint.sh"
 
-echo "contents of /opt/healthcatalyst/client/"
-echo "-------"
-# ls /opt/healthcatalyst/client/
-echo "-------"
+CertHostName="${CERT_HOSTNAME:-}"
+if [[ -z "$CertHostName" ]]
+then
+	# use insecure setting
+	echo "WARNING: No CERT_HOSTNAME specified so running in insecure mode"
+	cp /etc/rabbitmq/rabbitmq_nossl.config /etc/rabbitmq/rabbitmq.config
+else
+	echo "Setting up RabbitMq to use SSL"
+	echo "contents of /opt/healthcatalyst/client/"
+	echo "-------"
+	ls /opt/healthcatalyst/client/
+	echo "-------"
+
+	if [ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]
+	then
+		echo "ERROR: /opt/healthcatalyst/testca/cacert.pem was not found"
+		exit 1
+	fi
+	if [ ! -f "/opt/healthcatalyst/server/cert.pem" ]
+	then
+		echo "ERROR: /opt/healthcatalyst/server/cert.pem was not found"
+		exit 1
+	fi
+	if [ ! -f "/opt/healthcatalyst/server/key.pem" ]
+	then
+		echo "ERROR: /opt/healthcatalyst/server/key.pem was not found"
+		exit 1
+	fi
+
+fi
 
 RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
 
@@ -35,12 +61,5 @@ echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 	&& rabbitmqctl delete_user guest \
 	&& /etc/init.d/rabbitmq-server stop
 
-CertHostName="${CERT_HOSTNAME:-}"
-if [[ -z "$CertHostName" ]]
-then
-	# use insecure setting
-	echo "WARNING: No CERT_HOSTNAME specified so running in insecure mode"
-	cp /etc/rabbitmq/rabbitmq_nossl.config /etc/rabbitmq/rabbitmq.config
-fi
 
 exec rabbitmq-server
