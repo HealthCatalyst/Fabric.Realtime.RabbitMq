@@ -64,7 +64,7 @@ then
     exit 1
 fi
 
-echo "setting mgmt ui password:"$rabbitMqMgmtUiPassword
+# echo "setting mgmt ui password:"$rabbitMqMgmtUiPassword
 
 # RABBITMQ_MNESIA_BASE=/opt/rabbitmq
 
