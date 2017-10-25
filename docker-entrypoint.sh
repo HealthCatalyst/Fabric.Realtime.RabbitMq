@@ -18,23 +18,30 @@ else
 	ls /opt/healthcatalyst/server/
 	echo "-------"
 
-	if [ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]
+	if [[ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]]
 	then
 		echo "ERROR: /opt/healthcatalyst/testca/cacert.pem was not found"
 		exit 1
 	fi
-	if [ ! -f "/opt/healthcatalyst/server/cert.pem" ]
+	if [[ ! -f "/opt/healthcatalyst/server/cert.pem" ]]
 	then
 		echo "ERROR: /opt/healthcatalyst/server/cert.pem was not found"
 		exit 1
 	fi
-	if [ ! -f "/opt/healthcatalyst/server/key.pem" ]
+	if [[ ! -f "/opt/healthcatalyst/server/key.pem" ]]
 	then
 		echo "ERROR: /opt/healthcatalyst/server/key.pem was not found"
 		exit 1
 	fi
 
 fi
+
+if [[ ! -d "/opt/rabbitmq/" ]]
+then
+	echo "ERROR: /opt/rabbitmq/ was not found.  Be sure to map this volume"
+	exit 1
+fi
+
 
 RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
 
@@ -43,7 +50,11 @@ echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 # passwords don't have to be secure since only servers in the docker swarm cluster can
 #  access with plain username/password (we don't open the non-SSL port, 5672, outside the swarm)
 # All access from outside the swarm happens on port 5671 with SSL where we pick the username from the client cert
-/etc/init.d/rabbitmq-server restart \
+
+# copy from our location to the mounted volume
+cp -r /var/lib/rabbitmq/mnesia/* /opt/rabbitmq/ \
+	&& RABBITMQ_MNESIA_BASE=/opt/rabbitmq \
+	&& /etc/init.d/rabbitmq-server restart \
 	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
 	&& echo "creating fabricrabbitmquser user" \
