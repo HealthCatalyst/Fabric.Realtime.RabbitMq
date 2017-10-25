@@ -12,11 +12,23 @@ then
 	cp /etc/rabbitmq/rabbitmq_nossl.config /etc/rabbitmq/rabbitmq.config
 else
 	echo "Setting up RabbitMq to use SSL"
-	echo "contents of /opt/healthcatalyst/client/"
-	echo "-------"
-	ls /opt/healthcatalyst/testca/
-	ls /opt/healthcatalyst/server/
-	echo "-------"
+
+	# wait for keys to become available
+	while [[ ! -f "/opt/healthcatalyst/server/cert.pem" ]]
+	do
+		echo "waiting for /opt/healthcatalyst/testca/cacert.pem to become available"
+		sleep 5s;
+	done
+	while [[ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]]
+	do
+		echo "waiting for /opt/healthcatalyst/testca/cacert.pem to become available"
+		sleep 5s;
+	done
+	while [[ ! -f "/opt/healthcatalyst/server/key.pem" ]]
+	do
+		echo "waiting for /opt/healthcatalyst/server/key.pem to become available"
+		sleep 5s;
+	done	
 
 	if [[ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]]
 	then
@@ -34,12 +46,6 @@ else
 		exit 1
 	fi
 
-fi
-
-if [[ ! -d "/opt/rabbitmq/" ]]
-then
-	echo "ERROR: /opt/rabbitmq/ was not found.  Be sure to map this volume"
-	exit 1
 fi
 
 
