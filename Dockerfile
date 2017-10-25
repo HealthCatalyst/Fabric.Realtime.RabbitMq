@@ -30,11 +30,15 @@ RUN apt-get install -y wget \
 COPY rabbitmq.config /etc/rabbitmq/rabbitmq.config
 COPY rabbitmq_nossl.config /etc/rabbitmq/rabbitmq_nossl.config
 
-ADD docker-entrypoint.sh ./docker-entrypoint.sh
+ADD my-docker-entrypoint.sh ./my-docker-entrypoint.sh
+ADD setupusers.sh ./setupusers.sh
 
-RUN dos2unix ./docker-entrypoint.sh \
-	&& chmod +x ./docker-entrypoint.sh 
+RUN dos2unix ./my-docker-entrypoint.sh \
+	&& chmod +x ./my-docker-entrypoint.sh \
+	&& dos2unix ./setupusers.sh \
+	&& chmod +x ./setupusers.sh 
+
 
 COPY plugins/* /usr/lib/rabbitmq/lib/rabbitmq_server-3.6.12/plugins/
 
-ENTRYPOINT [ "./docker-entrypoint.sh" ]
+ENTRYPOINT [ "./my-docker-entrypoint.sh" ]
