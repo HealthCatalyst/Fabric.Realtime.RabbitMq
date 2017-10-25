@@ -47,14 +47,14 @@ RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
 
 echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 
+# RABBITMQ_MNESIA_BASE=/opt/rabbitmq
+
 # passwords don't have to be secure since only servers in the docker swarm cluster can
 #  access with plain username/password (we don't open the non-SSL port, 5672, outside the swarm)
 # All access from outside the swarm happens on port 5671 with SSL where we pick the username from the client cert
 
 # copy from our location to the mounted volume
-cp -r /var/lib/rabbitmq/mnesia/* /opt/rabbitmq/ \
-	&& RABBITMQ_MNESIA_BASE=/opt/rabbitmq \
-	&& /etc/init.d/rabbitmq-server restart \
+/etc/init.d/rabbitmq-server restart \
 	&& echo "enabling ssl auth plugin" \
 	&& rabbitmq-plugins enable rabbitmq_auth_mechanism_ssl \
 	&& echo "creating fabricrabbitmquser user" \
