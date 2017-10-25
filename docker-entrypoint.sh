@@ -48,10 +48,23 @@ else
 
 fi
 
+rabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-}"
 
-RabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-roboconf}"
+rabbitMqMgmtUiPasswordFile=${RABBITMQ_MGMT_UI_PASSWORD_FILE:-}
 
-echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
+if [[ ! -z "$rabbitMqMgmtUiPasswordFile" ]]
+then
+    echo "RABBITMQ_MGMT_UI_PASSWORD_FILE is set so reading from $rabbitMqMgmtUiPasswordFile"
+    rabbitMqMgmtUiPassword=$(cat $rabbitMqMgmtUiPasswordFile)
+fi
+
+if [[ -z "$rabbitMqMgmtUiPassword" ]]
+then
+    echo "Either RABBITMQ_MGMT_UI_PASSWORD or RABBITMQ_MGMT_UI_PASSWORD_FILE must be set"
+    exit 1
+fi
+
+echo "setting mgmt ui password:"$rabbitMqMgmtUiPassword
 
 # RABBITMQ_MNESIA_BASE=/opt/rabbitmq
 
@@ -72,7 +85,7 @@ echo "setting mgmt ui password:"$RabbitMqMgmtUiPassword
 	&& rabbitmqctl set_user_tags fabricinterfaceengine ip-private \
 	&& rabbitmqctl set_permissions -p / fabricinterfaceengine ".*" ".*" ".*" \
 	&& echo "creating admin user" \
-	&& rabbitmqctl add_user admin $RabbitMqMgmtUiPassword \
+	&& rabbitmqctl add_user admin $rabbitMqMgmtUiPassword \
 	&& rabbitmqctl set_user_tags admin administrator \
 	&& rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" \
 	&& echo "deleting guest user" \
