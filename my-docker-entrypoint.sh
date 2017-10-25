@@ -94,6 +94,6 @@ fi
 
 chown -R rabbitmq:rabbitmq "$RABBITMQ_MNESIA_BASE"
 
-sh "./setupusers.sh"
+./setupusers.sh
 
 exec /usr/local/bin/docker-entrypoint.sh rabbitmq-server
