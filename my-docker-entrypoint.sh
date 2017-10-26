@@ -4,6 +4,12 @@ set -eu
 
 echo "running docker-entrypoint.sh"
 
+if [[ ! -z "${CERT_HOSTNAME_FILE:-}" ]]
+then
+	echo "CERT_HOSTNAME_FILE is set so reading from $CERT_HOSTNAME_FILE"
+	CERT_HOSTNAME=$(cat $CERT_HOSTNAME_FILE)
+fi
+
 CertHostName="${CERT_HOSTNAME:-}"
 if [[ -z "$CertHostName" ]]
 then
