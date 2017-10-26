@@ -11,10 +11,10 @@ then
 fi
 
 CertHostName="${CERT_HOSTNAME:-}"
-if [[ -z "$CertHostName" ]]
+if [[ ! -z "${DISABLE_SSL:-}" ]]
 then
 	# use insecure setting
-	echo "WARNING: No CERT_HOSTNAME specified so running in insecure mode"
+	echo "WARNING:  DISABLE_SSL specified so running in insecure mode"
 	cp /etc/rabbitmq/rabbitmq_nossl.config /etc/rabbitmq/rabbitmq.config
 else
 	echo "Setting up RabbitMq to use SSL"
