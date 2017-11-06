@@ -49,8 +49,6 @@ fi
 # 	fi
 # fi
 
-
-
 # copy from our location to the mounted volume
 /etc/init.d/rabbitmq-server restart \
 	&& echo "enabling ssl auth plugin" \
@@ -67,8 +65,8 @@ fi
 	&& rabbitmqctl add_user admin $rabbitMqMgmtUiPassword \
 	&& rabbitmqctl set_user_tags admin administrator \
 	&& rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" \
-	&& echo "deleting guest user" \
-	&& rabbitmqctl delete_user guest \
+	&& [[ ! -z "${DISABLE_SSL:-}" ]] || echo "deleting guest user" \
+	&& [[ ! -z "${DISABLE_SSL:-}" ]] || rabbitmqctl delete_user guest \
 	&& /etc/init.d/rabbitmq-server stop
 
 
