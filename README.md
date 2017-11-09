@@ -7,7 +7,7 @@ This image delivers RabbitMQ on Linux and automates the following:
 * User creation
 * Updating components, such as Erlang
 
-## Deployment
+# Deployment
 
 As this image is intended for deployment as part of the Fabric.Realtime platform, please refer to the set of instructions at https://github.com/HealthCatalyst/Fabric.Realtime.
 
