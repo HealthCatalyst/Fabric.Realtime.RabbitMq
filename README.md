@@ -7,20 +7,9 @@ This image delivers RabbitMQ on Linux and automates the following:
 * User creation
 * Updating components, such as Erlang
 
-## Run Fabric.Docker.RabbitMQ
+## Deployment
 
-Standalone
-```
-docker run -P -v rabbitmqstore:/opt/rabbitmq/ --rm -e DISABLE_SSL=no -e RABBITMQ_MNESIA_BASE=/opt/rabbitmq -e RABBITMQ_MGMT_UI_PASSWORD=<mypassword> --name fabric.realtime.rabbitmq -t healthcatalyst/fabric.realtime.rabbitmq
-```
-
-You will be prompted for the following:
-
-* Please type in hostname to use for SSL certificate:
-* Please type in password to use for client certificate:
-* Please type in password to use with admin user for RabbitMq Admin UI:
-
-After deployment, you can access the RabbitMQ Management Web UI by navigating to `https://<fqdn-swarm-manager>:15672` in your browser.
+As this image is intended for deployment as part of the Fabric.Realtime platform, please refer to the set of instructions at https://github.com/HealthCatalyst/Fabric.Realtime.
 
 # Ports
 The following inbound ports must be opened to the Docker swarm manager for communication with RabbitMQ:
