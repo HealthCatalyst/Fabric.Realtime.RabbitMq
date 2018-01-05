@@ -54,7 +54,10 @@ else
 
 fi
 
-chown -R rabbitmq:rabbitmq "$RABBITMQ_MNESIA_BASE"
+if [[ ! -z "${RABBITMQ_MNESIA_BASE:-}" ]]
+then
+	chown -R rabbitmq:rabbitmq "$RABBITMQ_MNESIA_BASE"
+fi
 
 ./setupusers.sh
 

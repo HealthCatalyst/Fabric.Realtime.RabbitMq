@@ -65,9 +65,15 @@ fi
 	&& rabbitmqctl add_user admin $rabbitMqMgmtUiPassword \
 	&& rabbitmqctl set_user_tags admin administrator \
 	&& rabbitmqctl set_permissions -p / admin ".*" ".*" ".*" \
-	&& [[ ! -z "${DISABLE_SSL:-}" ]] || echo "deleting guest user" \
-	&& [[ ! -z "${DISABLE_SSL:-}" ]] || rabbitmqctl delete_user guest \
+	&& ([[ ! -z "${DISABLE_SSL:-}" ]] || echo "deleting guest user") \
+	&& ([[ ! -z "${DISABLE_SSL:-}" ]] || rabbitmqctl delete_user guest) \
 	&& /etc/init.d/rabbitmq-server stop
+
+
+echo "Rabbitmq logs"
+ls -al /var/log/rabbitmq
+cat /var/log/rabbitmq/startup_err
+cat /var/log/rabbitmq/startup_log
 
 
 # exec rabbitmq-server
