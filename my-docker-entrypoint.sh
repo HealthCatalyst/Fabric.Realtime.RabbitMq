@@ -54,9 +54,13 @@ else
 
 fi
 
+echo "rabbitmq user id:"
+id -u rabbitmq
+
 if [[ ! -z "${RABBITMQ_MNESIA_BASE:-}" ]]
 then
-	chown -R rabbitmq:rabbitmq "$RABBITMQ_MNESIA_BASE"
+	echo "setting ownership on $RABBITMQ_MNESIA_BASE"
+	chown --verbose -R rabbitmq:rabbitmq "$RABBITMQ_MNESIA_BASE"
 fi
 
 ./setupusers.sh

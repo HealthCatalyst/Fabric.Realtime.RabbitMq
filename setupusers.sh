@@ -2,8 +2,9 @@
 
 set -eu
 
-echo "running setup.sh"
-
+echo "running setupusers.sh"
+echo "Running as user:$UID"
+id
 
 rabbitMqMgmtUiPassword="${RABBITMQ_MGMT_UI_PASSWORD:-}"
 
@@ -79,3 +80,5 @@ cat /var/log/rabbitmq/startup_log
 # exec rabbitmq-server
 # echo "$@"
 # exec /usr/local/bin/docker-entrypoint.sh "$@"
+
+echo "Finished running setupusers.sh"
