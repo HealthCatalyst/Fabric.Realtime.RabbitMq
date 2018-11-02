@@ -3,7 +3,7 @@
 set -eu
 
 echo "running docker-entrypoint.sh"
-echo "Version 2018.11.01.01"
+echo "Version 2018.11.01.02"
 
 if [[ ! -z "${CERT_HOSTNAME_FILE:-}" ]]
 then
@@ -21,9 +21,9 @@ else
 	echo "Setting up RabbitMq to use SSL"
 
 	# wait for keys to become available
-	while [[ ! -f "/opt/healthcatalyst/testca/rootCA.crt" ]]
+	while [[ ! -f "/opt/healthcatalyst/testca/tls.crt" ]]
 	do
-		echo "waiting for /opt/healthcatalyst/testca/rootCA.crt to become available"
+		echo "waiting for /opt/healthcatalyst/testca/tls.crt to become available"
 		sleep 5s;
 	done
 	while [[ ! -f "/opt/healthcatalyst/server/tls.crt" ]]
@@ -37,9 +37,9 @@ else
 		sleep 5s;
 	done
 
-	if [[ ! -f "/opt/healthcatalyst/testca/rootCA.crt" ]]
+	if [[ ! -f "/opt/healthcatalyst/testca/tls.crt" ]]
 	then
-		echo "ERROR: /opt/healthcatalyst/testca/rootCA.crt was not found"
+		echo "ERROR: /opt/healthcatalyst/testca/tls.crt was not found"
 		exit 1
 	fi
 	if [[ ! -f "/opt/healthcatalyst/server/tls.crt" ]]
@@ -52,7 +52,6 @@ else
 		echo "ERROR: /opt/healthcatalyst/server/tls.key was not found"
 		exit 1
 	fi
-
 fi
 
 echo "rabbitmq user id:"
