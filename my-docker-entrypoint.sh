@@ -3,6 +3,7 @@
 set -eu
 
 echo "running docker-entrypoint.sh"
+echo "Version 2018.11.01.01"
 
 if [[ ! -z "${CERT_HOSTNAME_FILE:-}" ]]
 then
@@ -20,35 +21,35 @@ else
 	echo "Setting up RabbitMq to use SSL"
 
 	# wait for keys to become available
-	while [[ ! -f "/opt/healthcatalyst/server/cert.pem" ]]
+	while [[ ! -f "/opt/healthcatalyst/testca/rootCA.crt" ]]
 	do
-		echo "waiting for /opt/healthcatalyst/testca/cacert.pem to become available"
+		echo "waiting for /opt/healthcatalyst/testca/rootCA.crt to become available"
 		sleep 5s;
 	done
-	while [[ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]]
+	while [[ ! -f "/opt/healthcatalyst/server/tls.crt" ]]
 	do
-		echo "waiting for /opt/healthcatalyst/testca/cacert.pem to become available"
+		echo "waiting for /opt/healthcatalyst/server/tls.crt to become available"
 		sleep 5s;
 	done
-	while [[ ! -f "/opt/healthcatalyst/server/key.pem" ]]
+	while [[ ! -f "/opt/healthcatalyst/server/tls.key" ]]
 	do
-		echo "waiting for /opt/healthcatalyst/server/key.pem to become available"
+		echo "waiting for /opt/healthcatalyst/server/tls.key to become available"
 		sleep 5s;
-	done	
+	done
 
-	if [[ ! -f "/opt/healthcatalyst/testca/cacert.pem" ]]
+	if [[ ! -f "/opt/healthcatalyst/testca/rootCA.crt" ]]
 	then
-		echo "ERROR: /opt/healthcatalyst/testca/cacert.pem was not found"
+		echo "ERROR: /opt/healthcatalyst/testca/rootCA.crt was not found"
 		exit 1
 	fi
-	if [[ ! -f "/opt/healthcatalyst/server/cert.pem" ]]
+	if [[ ! -f "/opt/healthcatalyst/server/tls.crt" ]]
 	then
-		echo "ERROR: /opt/healthcatalyst/server/cert.pem was not found"
+		echo "ERROR: /opt/healthcatalyst/server/tls.crt was not found"
 		exit 1
 	fi
-	if [[ ! -f "/opt/healthcatalyst/server/key.pem" ]]
+	if [[ ! -f "/opt/healthcatalyst/server/tls.key" ]]
 	then
-		echo "ERROR: /opt/healthcatalyst/server/key.pem was not found"
+		echo "ERROR: /opt/healthcatalyst/server/tls.key was not found"
 		exit 1
 	fi
 
